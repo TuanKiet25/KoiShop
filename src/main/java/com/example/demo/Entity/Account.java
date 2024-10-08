@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,6 +30,7 @@ public class Account implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     Role role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
