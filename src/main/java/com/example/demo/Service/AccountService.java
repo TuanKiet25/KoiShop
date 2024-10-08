@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Entity.Account;
+import com.example.demo.Entity.enums.Role;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.request.LoginRequest;
 import com.example.demo.model.request.RegisterRequest;
@@ -20,8 +21,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService implements UserDetailsService {
 
-    @Autowired
-    ModelMapper modelMapper;
+//    @Autowired
+//    ModelMapper modelMapper;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -39,7 +40,12 @@ public class AccountService implements UserDetailsService {
     public Account register(RegisterRequest registerRequest) {
         try {
             // RegisterRequest => Account
-            Account account = modelMapper.map(registerRequest, Account.class);
+//            Account account = modelMapper.map(registerRequest, Account.class);
+            Account account = new Account();
+            account.setEmail(registerRequest.getEmail());
+            account.setRole(Role.CUSTOMER);
+            account.setPhone(registerRequest.getPhone());
+            account.setFullName(registerRequest.getFullName());
             String password = registerRequest.getPassword();
             account.setPassword(passwordEncoder.encode(password));
             return accountRepository.save(account);
@@ -55,7 +61,12 @@ public class AccountService implements UserDetailsService {
                     loginRequest.getPassword()
             ));
             Account account = (Account) authentication.getPrincipal();
-            LoginResponse loginResponse = modelMapper.map(account, LoginResponse.class);
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setPhone(account.getPhone());
+            loginResponse.setEmail(account.getEmail());
+            loginResponse.setFullName(account.getFullName());
+            loginResponse.setId(account.getId());
+            loginResponse.setRole(account.getRole());
             loginResponse.setToken(tokenService.generateToken(account));
             return loginResponse;
         } catch (Exception e) {
