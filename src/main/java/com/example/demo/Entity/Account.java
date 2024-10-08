@@ -2,6 +2,8 @@ package com.example.demo.Entity;
 
 import com.example.demo.Entity.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,8 +26,6 @@ public class Account implements UserDetails {
     String email;
     String password;
     String fullName;
-
-    @Column(unique = true)
     String phone;
 
     @Enumerated(EnumType.STRING)
