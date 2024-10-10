@@ -2,16 +2,21 @@ package com.example.demo.Entity;
 
 import com.example.demo.Entity.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "account")
 public class Account implements UserDetails {
 
     @Id
@@ -22,12 +27,12 @@ public class Account implements UserDetails {
     String email;
     String password;
     String fullName;
-
-    @Column(unique = true)
     String phone;
 
     @Enumerated(EnumType.STRING)
     Role role;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -38,4 +43,7 @@ public class Account implements UserDetails {
     public String getUsername() {
         return null;
     }
+
+
+
 }
