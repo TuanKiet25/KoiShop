@@ -39,8 +39,8 @@ public class KoiService  {
         return koiRepository.save(oldkoi);
     }
     //delete
-    public Koi deleteKoi(long koiId){
-    Koi koi = getKoiById(koiId);
+    public Koi deleteKoi(long id){
+    Koi koi = getKoiById(id);
         koi.setDeleted(true);
         return koiRepository.save(koi);
     }
