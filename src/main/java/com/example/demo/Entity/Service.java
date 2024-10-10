@@ -13,6 +13,7 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+
     String name;
     String description;
 

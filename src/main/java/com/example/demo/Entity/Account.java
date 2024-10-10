@@ -16,6 +16,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Table(name = "account")
 public class Account implements UserDetails {
 
     @Id
@@ -32,6 +33,7 @@ public class Account implements UserDetails {
     Role role;
 
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -41,4 +43,7 @@ public class Account implements UserDetails {
     public String getUsername() {
         return null;
     }
+
+
+
 }
