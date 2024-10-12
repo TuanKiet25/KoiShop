@@ -32,7 +32,11 @@ public class Account implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
-
+//    @OneToMany(mappedBy = "account")
+//    private Set<Consignment> consignments = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "account")
+//    private Set<Order> orders = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

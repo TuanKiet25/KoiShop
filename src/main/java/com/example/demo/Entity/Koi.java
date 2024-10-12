@@ -32,7 +32,7 @@ public class Koi {
     private String koiGender;
 
     @Column(name = "koi_price")
-    private float koiPrice;
+    private double price;
 
     @Column(name = "Koi_description")
     private String koiDes;
@@ -51,6 +51,8 @@ public class Koi {
     @JoinColumn(name = "variety_id")
     private Variety variety;
 
-    private  boolean isDeleted = false;
+//    @OneToMany(mappedBy = "koi")
+//    private Set<Consignment> consignments = new HashSet<>();
+   private  boolean isDeleted = false;
 
 }
