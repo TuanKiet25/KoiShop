@@ -31,8 +31,8 @@ public class OrderDetail {
     @JoinColumn(name = "koiPack_id")
     private KoiPack koiPack;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_id")
-//    private Order order;
+   @ManyToOne
+    @JoinColumn(name = "order_id")
+    private KoiOrder koiOrder;
 
 }
