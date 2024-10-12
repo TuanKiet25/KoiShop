@@ -16,7 +16,7 @@ public class OrderDetail {
 
     @Column(name = "orderDetail_quantity")
     private String orderDetailQuantity;
-
+    
     @Column(name = "price")
     private float price;
 
@@ -25,11 +25,14 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "koi_id")
-    private Koi koiFish;
+    private Koi koi;
 
     @ManyToOne
     @JoinColumn(name = "koiPack_id")
     private KoiPack koiPack;
 
+//    @ManyToOne
+//    @JoinColumn(name = "order_id")
+//    private Order order;
 
 }

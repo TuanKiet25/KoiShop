@@ -16,6 +16,7 @@ public class KoiAPI {
     @Autowired
     KoiService koiService;
 
+
 @PostMapping
     public ResponseEntity createKoi(@RequestBody Koi koi){
     Koi newKoi = koiService.createKoi(koi);
@@ -37,6 +38,32 @@ public ResponseEntity updateKoi(@PathVariable long koiId,@RequestBody Koi koi){
     public ResponseEntity deleteKoi(@PathVariable long koiId){
     Koi deletedKoi = koiService.deleteKoi(koiId);
     return ResponseEntity.ok(deletedKoi);
+}
+
+@GetMapping("/{koiName}")
+    public ResponseEntity findKoiByName(@PathVariable String koiName){
+    Koi koiResult = koiService.findByName(koiName);
+    return ResponseEntity.ok(koiResult);
+}
+@GetMapping("/breeder/{breederName}")
+    public ResponseEntity findKoiByBreeder(@PathVariable String breederName) {
+    List<Koi> searchKoiList = koiService.findByBreeder(breederName);
+    return ResponseEntity.ok(searchKoiList);
+}
+@GetMapping("/sortedAsc")
+    public ResponseEntity sortedKoiByPriceAsc(){
+    List<Koi> sortedList = koiService.sortedByPriceAsc();
+    return ResponseEntity.ok(sortedList);
+}
+@GetMapping("/sortedDesc")
+    public ResponseEntity sortedKoiByPriceDesc(){
+    List<Koi> sortedList = koiService.sortedByPriceDesc();
+    return ResponseEntity.ok(sortedList);
+    }
+@GetMapping("/variety/{varietyName}")
+    public  ResponseEntity findKoiByVariety(@PathVariable String varietyName){
+    List<Koi> searchKoiList = koiService.findByVariety(varietyName);
+    return ResponseEntity.ok(searchKoiList);
 }
 
 }
