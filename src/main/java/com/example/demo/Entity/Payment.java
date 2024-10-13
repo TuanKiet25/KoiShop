@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "payment")
@@ -19,7 +20,7 @@ public class Payment {
     private float amount;
 
     @Column(name = "payment_date")
-    private LocalDate paymentDate;
+    private Date paymentDate;
 
     @Column(name = "payment_status")
     private String paymentStatus;

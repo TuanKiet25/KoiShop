@@ -16,7 +16,7 @@ public class KoiRequest {
 
     private String koiGender;
 
-    private double price;
+    private float price;
 
     private String koiDes;
 

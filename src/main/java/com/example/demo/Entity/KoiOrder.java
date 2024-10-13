@@ -1,12 +1,12 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "koiOrder")
@@ -18,7 +18,7 @@ public class KoiOrder {
     private long id;
 
     @Column(name = "order_date")
-    private LocalDate orderDate;
+    private Date orderDate;
 
     @Column(name = "order_status")
     private String orderStatus;
@@ -27,8 +27,13 @@ public class KoiOrder {
     private float totalAmount;
 
 
-    @OneToMany(mappedBy = "koiOrder")
-    private Set<OrderDetail> orderDetails = new HashSet<>();
+    @OneToMany(mappedBy = "koiOrder", cascade = CascadeType.ALL)//luc luu order no se giup minh luu luon orderdetail
+    @JsonIgnore
+    private List<OrderDetail> orderDetails = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "koi_id")
+    private Koi koi;
 
    @OneToMany(mappedBy = "koiOrder")
     private Set<Payment> payments = new HashSet<>();
