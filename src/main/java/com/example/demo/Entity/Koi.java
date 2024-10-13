@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -33,7 +35,7 @@ public class Koi {
     private String koiGender;
 
     @Column(name = "koi_price")
-    private double price;
+    private float price;
 
     @Column(name = "Koi_description")
     private String koiDes;
@@ -53,6 +55,8 @@ public class Koi {
     @JoinColumn(name = "variety_id")
     @JsonIgnore
     private Variety variety;
+
+
 
    @OneToMany(mappedBy = "koi")
    private Set<Consignment> consignments = new HashSet<>();

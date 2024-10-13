@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public class OrderDetail {
     private long id;
 
     @Column(name = "orderDetail_quantity")
-    private String orderDetailQuantity;
+    private int orderDetailQuantity;
     
     @Column(name = "price")
     private float price;
@@ -24,10 +25,12 @@ public class OrderDetail {
     private String orderDetailStatus;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "koi_id")
     private Koi koi;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "koiPack_id")
     private KoiPack koiPack;
 

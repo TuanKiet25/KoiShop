@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,6 +45,8 @@ public class KoiPack {
 
     @OneToMany(mappedBy = "koiPack")
     private Set<KoiPackVariety> koiPackVarieties = new HashSet<>();
+
+
 
 
 }
