@@ -4,6 +4,7 @@ import com.example.demo.Entity.Breeder;
 import com.example.demo.Entity.Koi;
 import com.example.demo.Entity.Variety;
 import com.example.demo.exception.BadRequestException;
+import com.example.demo.model.request.KoiRequest;
 import com.example.demo.repository.BreederRepository;
 import com.example.demo.repository.KoiRepository;
 import com.example.demo.repository.VarietyRepository;
@@ -23,10 +24,29 @@ public class KoiService  {
     VarietyRepository varietyRepository;
 
     //Create Koi
-    public Koi createKoi(Koi koi){
-        Koi newKoi = koiRepository.save(koi);
-        return newKoi;
+    public Koi createKoi(KoiRequest koiRequest){
+        Koi newKoi = new Koi();
+        Breeder breeder = breederRepository.findByBreederName(koiRequest.getBreederName());
+        if (breeder == null) throw new BadRequestException("Breeder does not exist!");
+
+        Variety variety = varietyRepository.findByVarietyName(koiRequest.getVarietyName());
+        if (variety == null) throw new BadRequestException("Variety does not exist!");
+
+        newKoi.setKoiName(koiRequest.getKoiName());
+        newKoi.setKoiSize(koiRequest.getKoiSize());
+        newKoi.setKoiBorn(koiRequest.getKoiBorn());
+        newKoi.setKoiGender(koiRequest.getKoiGender());
+        newKoi.setPrice(koiRequest.getPrice());
+        newKoi.setKoiDes(koiRequest.getKoiDes());
+        newKoi.setKoiPrize(koiRequest.getKoiPrize());
+        newKoi.setKoiStatus(koiRequest.getKoiStatus());
+        newKoi.setBreeder(breeder);
+        newKoi.setVariety(variety);
+
+        return koiRepository.save(newKoi);
     }
+
+
     //read koi
     public List<Koi> getAllKoi(){
     List<Koi> kois= koiRepository.findAll();
@@ -35,18 +55,24 @@ public class KoiService  {
 
 
     //update  koi
-    public Koi update(long koiId, Koi koi){
+    public Koi update(long koiId, KoiRequest koiRequest){
+        Breeder breeder = breederRepository.findByBreederName(koiRequest.getBreederName());
+        if (breeder == null) throw new BadRequestException("Breeder does not exist!");
+
+        Variety variety = varietyRepository.findByVarietyName(koiRequest.getVarietyName());
+        if (variety == null) throw new BadRequestException("Variety does not exist!");
+
         Koi oldkoi = getKoiById(koiId);
-        oldkoi.setKoiName(koi.getKoiName());
-        oldkoi.setKoiSize(koi.getKoiSize());
-        oldkoi.setKoiBorn(koi.getKoiBorn());
-        oldkoi.setKoiGender(koi.getKoiGender());
-        oldkoi.setPrice(koi.getPrice());
-        oldkoi.setKoiDes(koi.getKoiDes());
-        oldkoi.setKoiPrize(koi.getKoiPrize());
-        oldkoi.setKoiStatus(koi.getKoiStatus());
-        oldkoi.setBreeder(koi.getBreeder());
-        oldkoi.setVariety(koi.getVariety());
+        oldkoi.setKoiName(koiRequest.getKoiName());
+        oldkoi.setKoiSize(koiRequest.getKoiSize());
+        oldkoi.setKoiBorn(koiRequest.getKoiBorn());
+        oldkoi.setKoiGender(koiRequest.getKoiGender());
+        oldkoi.setPrice(koiRequest.getPrice());
+        oldkoi.setKoiDes(koiRequest.getKoiDes());
+        oldkoi.setKoiPrize(koiRequest.getKoiPrize());
+        oldkoi.setKoiStatus(koiRequest.getKoiStatus());
+        oldkoi.setBreeder(breeder);
+        oldkoi.setVariety(variety);
         return koiRepository.save(oldkoi);
     }
     //delete

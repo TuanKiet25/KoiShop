@@ -19,6 +19,9 @@ public class Variety {
     @Column(name = "variety_name")
     private String varietyName;
 
+    @Column(name = "variety_Description")
+    private String varietyDes;
+
     @OneToMany(mappedBy = "variety")
     private Set<Koi> kois = new HashSet<>();
 

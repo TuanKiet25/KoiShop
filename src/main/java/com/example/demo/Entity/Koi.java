@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,14 +46,17 @@ public class Koi {
 
     @ManyToOne
     @JoinColumn(name = "breeder_id")
+    @JsonIgnore
     private Breeder breeder;
 
     @ManyToOne
     @JoinColumn(name = "variety_id")
+    @JsonIgnore
     private Variety variety;
 
-//    @OneToMany(mappedBy = "koi")
-//    private Set<Consignment> consignments = new HashSet<>();
-   private  boolean isDeleted = false;
+   @OneToMany(mappedBy = "koi")
+   private Set<Consignment> consignments = new HashSet<>();
+
+    private  boolean isDeleted = false;
 
 }
