@@ -5,6 +5,7 @@ import com.example.demo.Entity.enums.Role;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.request.LoginRequest;
 import com.example.demo.model.request.RegisterRequest;
+import com.example.demo.model.response.EmailDetail;
 import com.example.demo.model.response.LoginResponse;
 import com.example.demo.repository.AccountRepository;
 import org.modelmapper.ModelMapper;
@@ -36,6 +37,9 @@ public class AccountService implements UserDetailsService {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    EmailService emailService;
+
 
     public Account register(RegisterRequest registerRequest) {
         try {
@@ -48,7 +52,13 @@ public class AccountService implements UserDetailsService {
             account.setFullName(registerRequest.getFullName());
             String password = registerRequest.getPassword();
             account.setPassword(passwordEncoder.encode(password));
-            return accountRepository.save(account);
+            Account newAccount = accountRepository.save(account);
+            EmailDetail emailDetail = new EmailDetail();
+            emailDetail.setAccount(newAccount);
+            emailDetail.setSubject("Chào mừng bạn đến với trang web Koi Farm Shop của chúng tôi");
+            emailDetail.setLink("-link web-");
+            emailService.sentEmail(emailDetail);
+            return newAccount;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
