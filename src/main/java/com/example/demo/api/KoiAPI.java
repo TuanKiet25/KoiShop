@@ -2,6 +2,7 @@ package com.example.demo.api;
 
 import com.example.demo.Entity.Koi;
 import com.example.demo.Service.KoiService;
+import com.example.demo.model.request.KoiRequest;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,26 +12,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/koi")
+@CrossOrigin("*")
 @SecurityRequirement(name = "api")
 public class KoiAPI {
     @Autowired
     KoiService koiService;
 
 
-@PostMapping
-    public ResponseEntity createKoi(@RequestBody Koi koi){
-    Koi newKoi = koiService.createKoi(koi);
+@PostMapping("/createKoi")
+    public ResponseEntity createKoi(@RequestBody KoiRequest koiRequest){
+    Koi newKoi = koiService.createKoi(koiRequest);
     return ResponseEntity.ok(newKoi);
 }
 
-@GetMapping
+@GetMapping("getAllKoi")
     public ResponseEntity getAllKoi(){
     List<Koi> kois = koiService.getAllKoi();
     return ResponseEntity.ok(kois);
 }
-@PutMapping("/{koiId}")
-public ResponseEntity updateKoi(@PathVariable long koiId,@RequestBody Koi koi){
-    Koi updateKoi = koiService.update(koiId, koi);
+@PutMapping("/update/{koiId}")
+public ResponseEntity updateKoi(@PathVariable long koiId,@RequestBody KoiRequest koiRequest){
+    Koi updateKoi = koiService.update(koiId, koiRequest);
     return ResponseEntity.ok(updateKoi);
 }
 
