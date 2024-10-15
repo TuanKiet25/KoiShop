@@ -12,7 +12,7 @@ import java.util.List;
 public interface KoiRepository  extends JpaRepository<Koi, Long> {
     //customize
     Koi findById(long id);
-    Koi findByKoiName(String koiName);
+    List<Koi> findByKoiName(String koiName);
     List<Koi> findAllByOrderByPriceAsc();
     List<Koi> findAllByOrderByPriceDesc();
     List<Koi> findByBreeder(Breeder breeder);

@@ -44,8 +44,8 @@ public ResponseEntity updateKoi(@PathVariable long koiId, @RequestBody KoiReques
 
 @GetMapping("/{koiName}")
     public ResponseEntity findKoiByName(@PathVariable String koiName){
-    Koi koiResult = koiService.findByName(koiName);
-    return ResponseEntity.ok(koiResult);
+    List<Koi> koiResultList = koiService.findByName(koiName);
+    return ResponseEntity.ok(koiResultList);
 }
 @GetMapping("/breeder/{breederName}")
     public ResponseEntity findKoiByBreeder(@PathVariable String breederName) {

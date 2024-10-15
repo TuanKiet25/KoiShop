@@ -19,13 +19,13 @@ public class KoiPackRequest {
 
     private String koiPackStatus;
 
-    private float koiPackPrice;
+    private float price;
 
     private String koiPackDes;
 
-    List<String> breederRequestName ;
+    List<BreederRequest> breederRequestList;
 
-    List<String> varietyRequestName;
+    List<VarietyRequest> varietyRequestList;
 
     List<String> mediaRequestUrlList;
 
