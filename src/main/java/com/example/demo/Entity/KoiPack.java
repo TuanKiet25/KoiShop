@@ -38,8 +38,8 @@ public class KoiPack {
     @Column(name = "koiPack_status")
     private String koiPackStatus;
 
-    @Column(name = "koiPack_price")
-    private float koiPackPrice;
+    @Column(name = "price")
+    private float price;
 
     @Column(name = "koiPack_description")
     private String koiPackDes;

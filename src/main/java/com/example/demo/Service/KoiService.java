@@ -75,18 +75,21 @@ public class KoiService  {
         oldkoi.setVariety(variety);
         return koiRepository.save(oldkoi);
     }
+
     //delete
     public Koi deleteKoi(long id){
     Koi koi = getKoiById(id);
         koi.setDeleted(true);
         return koiRepository.save(koi);
     }
+
     //findByKoiName
-    public Koi findByName(String koiName){
-        Koi koi = koiRepository.findByKoiName(koiName);
-        if(koi == null) throw new EntityNotFoundException();
-        return koi;
+    public List<Koi> findByName(String koiName){
+        List<Koi> koiList = koiRepository.findByKoiName(koiName);
+        if(koiList.isEmpty()) throw new BadRequestException("Koi not found!");
+        return koiList;
     }
+
     //findKoiByBreeder
     public List<Koi> findByBreeder(String breederName){
     Breeder breeder = breederRepository.findByBreederName(breederName);
@@ -94,14 +97,17 @@ public class KoiService  {
     List<Koi> koiBreederList =koiRepository.findByBreeder(breeder);
     return koiBreederList;
     }
+
     //Sorted by price Asc
     public List<Koi> sortedByPriceAsc(){
         return koiRepository.findAllByOrderByPriceAsc();
     }
+
     //Sorted by price Desc
     public List<Koi> sortedByPriceDesc(){
         return koiRepository.findAllByOrderByPriceDesc();
     }
+
     //Find by Variety
     public List<Koi> findByVariety(String varietyName){
        Variety variety = varietyRepository.findByVarietyName(varietyName);
@@ -109,6 +115,8 @@ public class KoiService  {
        List<Koi> koiListVariety = koiRepository.findByVariety(variety);
         return koiListVariety;
     }
+
+    //Find by id
     public Koi getKoiById(long id){
         Koi koi = koiRepository.findById(id);
         if(koi == null) throw new EntityNotFoundException();
