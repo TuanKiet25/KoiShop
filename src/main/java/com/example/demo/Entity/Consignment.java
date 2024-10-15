@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,7 +43,10 @@ public class Consignment {
     @JoinColumn(name = "koi_id")
     private Koi koi;
 
-    @OneToMany(mappedBy = "consignment")
-    private Set<PaymentCosign> paymentCosigns = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "consignment_payment",
+            joinColumns = @JoinColumn(name = "consignmentId"),
+            inverseJoinColumns = @JoinColumn(name = "paymentMethodId"))
+    private List<PaymentMethod> paymentMethods = new ArrayList<>();
 
 }

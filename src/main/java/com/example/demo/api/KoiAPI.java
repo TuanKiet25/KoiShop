@@ -31,7 +31,7 @@ public class KoiAPI {
     return ResponseEntity.ok(kois);
 }
 @PutMapping("/update/{koiId}")
-public ResponseEntity updateKoi(@PathVariable long koiId,@RequestBody KoiRequest koiRequest){
+public ResponseEntity updateKoi(@PathVariable long koiId, @RequestBody KoiRequest koiRequest){
     Koi updateKoi = koiService.update(koiId, koiRequest);
     return ResponseEntity.ok(updateKoi);
 }
