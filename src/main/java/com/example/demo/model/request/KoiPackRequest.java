@@ -1,7 +1,5 @@
 package com.example.demo.model.request;
 
-import com.example.demo.Entity.Variety;
-import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -25,8 +23,10 @@ public class KoiPackRequest {
 
     private String koiPackDes;
 
-    List<BreederRequest> breederRequestList ;
+    List<String> breederRequestName ;
 
-    List<VarietyRequest> varietyRequestList;
+    List<String> varietyRequestName;
+
+    List<String> mediaRequestUrlList;
 
 }
