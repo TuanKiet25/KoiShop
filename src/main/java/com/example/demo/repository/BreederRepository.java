@@ -4,8 +4,11 @@ import com.example.demo.Entity.Breeder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BreederRepository extends JpaRepository<Breeder, Long> {
     Breeder findByBreederName(String breederName);
 
+    List<Breeder> findByBreederNameContaining(String breederName);
 }

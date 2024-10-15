@@ -45,7 +45,6 @@ public class KoiPack {
     private String koiPackDes;
 
 
-
     @OneToMany(mappedBy = "koiPack")
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
@@ -57,6 +56,8 @@ public class KoiPack {
     @JoinTable(name = "KoiPackVariety", joinColumns = @JoinColumn(name = "koiPackId"), inverseJoinColumns = @JoinColumn(name = "varietyId"))
     private List<Variety> varieties = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "koiPack", cascade = CascadeType.ALL)
+    private List<Media> mediaList;
 
 
 }
