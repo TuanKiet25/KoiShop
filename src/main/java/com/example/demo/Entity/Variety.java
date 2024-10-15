@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,6 +27,9 @@ public class Variety {
     @OneToMany(mappedBy = "variety")
     private Set<Koi> kois = new HashSet<>();
 
-    @OneToMany(mappedBy = "variety")
-    private Set<KoiPackVariety> koiPackVarieties = new HashSet<>();
+//    @OneToMany(mappedBy = "variety")
+//    private Set<KoiPackVariety> koiPackVarieties = new HashSet<>();
+
+    @ManyToMany(mappedBy = "varieties")
+    private List<KoiPack> koiPacks = new ArrayList<>();
 }

@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -29,7 +31,10 @@ public class Breeder {
     @OneToMany(mappedBy = "breeder")
     private Set<Koi> kois = new HashSet<>();
 
-    @OneToMany(mappedBy = "breeder")
-    private Set<KoiPackBreeder> koiPackBreeders = new HashSet<>();
+
+
+    @ManyToMany(mappedBy = "breeders")
+    private List<KoiPack> koiPacks = new ArrayList<>();
+
 
 }

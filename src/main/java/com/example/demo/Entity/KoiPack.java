@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,9 @@ public class KoiPack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "koiPack_name")
+    private String koiPackName;
 
     @Column(name = "koiPack_gender")
     private String koiPackGender;
@@ -40,12 +44,18 @@ public class KoiPack {
     @Column(name = "koiPack_description")
     private String koiPackDes;
 
-    @OneToMany(mappedBy = "koiPack")
-    private Set<KoiPackBreeder> koiPackBreeders = new HashSet<>();
+
 
     @OneToMany(mappedBy = "koiPack")
-    private Set<KoiPackVariety> koiPackVarieties = new HashSet<>();
+    private List<OrderDetail> orderDetailList = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "KoiPackBreeder", joinColumns = @JoinColumn(name = "koiPackId"), inverseJoinColumns = @JoinColumn(name = "breederId"))
+    private List<Breeder> breeders = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "KoiPackVariety", joinColumns = @JoinColumn(name = "koiPackId"), inverseJoinColumns = @JoinColumn(name = "varietyId"))
+    private List<Variety> varieties = new ArrayList<>();
 
 
 
