@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,7 +51,13 @@ public class KoiService  {
     //read koi
     public List<Koi> getAllKoi(){
     List<Koi> kois= koiRepository.findAll();
-    return kois;
+    List<Koi> koiList = new ArrayList<>();
+    for(Koi koi  : kois){
+        if(koi.isDeleted() == false){
+            koiList.add(koi);
+        }
+    }
+    return koiList;
     }
 
 

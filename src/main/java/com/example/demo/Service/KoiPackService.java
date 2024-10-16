@@ -60,7 +60,13 @@ public class KoiPackService {
     //read koi
     public List<KoiPack> getAll(){
         List<KoiPack> koiPacks = koiPackRepository.findAll();
-        return koiPacks;
+        List<KoiPack> koiPackList = new ArrayList<>();
+        for(KoiPack koiPack : koiPacks){
+            if(koiPack.isDeleted() == false){
+                koiPackList.add(koiPack);
+            }
+        }
+        return koiPackList;
     }
 
     //Update koi
@@ -154,6 +160,13 @@ public class KoiPackService {
             }
         }
         return result;
+    }
+
+    //Delete koipack by Id
+    public KoiPack deleteById(long id){
+        KoiPack koiPack = getKoiPackById(id);
+        koiPack.setDeleted(true);
+        return koiPackRepository.save(koiPack);
     }
 }
 

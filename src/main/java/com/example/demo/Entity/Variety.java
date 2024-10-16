@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,5 +32,6 @@ public class Variety {
 //    private Set<KoiPackVariety> koiPackVarieties = new HashSet<>();
 
     @ManyToMany(mappedBy = "varieties")
+    @JsonIgnore
     private List<KoiPack> koiPacks = new ArrayList<>();
 }
