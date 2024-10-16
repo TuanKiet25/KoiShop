@@ -27,8 +27,8 @@ public class KoiAPI {
 
 @GetMapping("getAllKoi")
     public ResponseEntity getAllKoi(){
-    List<Koi> kois = koiService.getAllKoi();
-    return ResponseEntity.ok(kois);
+    List<KoiRequest> koiRequests = koiService.getAllKoi();
+    return ResponseEntity.ok(koiRequests);
 }
 @PutMapping("/update/{koiId}")
 public ResponseEntity updateKoi(@PathVariable long koiId, @RequestBody KoiRequest koiRequest){

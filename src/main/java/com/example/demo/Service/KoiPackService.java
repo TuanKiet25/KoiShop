@@ -84,6 +84,7 @@ public class KoiPackService {
 
         //add breeder
         List<Breeder> breederList = new ArrayList<>();
+
         for(BreederRequest breederRequest : koiPackRequest.getBreederRequestList()){
             Breeder breeder = new Breeder();
             breeder.setBreederName(breederRequest.getBreederName());

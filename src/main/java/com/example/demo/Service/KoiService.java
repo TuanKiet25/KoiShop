@@ -49,15 +49,31 @@ public class KoiService  {
 
 
     //read koi
-    public List<Koi> getAllKoi(){
+    public List<KoiRequest> getAllKoi(){
     List<Koi> kois= koiRepository.findAll();
     List<Koi> koiList = new ArrayList<>();
-    for(Koi koi  : kois){
-        if(koi.isDeleted() == false){
+    for(Koi koi  : kois) {
+        if (koi.isDeleted() == false) {
             koiList.add(koi);
         }
     }
-    return koiList;
+    List<KoiRequest> koiRequests = new ArrayList<>();
+    for(Koi koi1 : koiList){
+        KoiRequest koiRequest = new KoiRequest();
+        koiRequest.setKoiName(koi1.getKoiName());
+        koiRequest.setKoiSize(koi1.getKoiSize());
+        koiRequest.setKoiBorn(koi1.getKoiBorn());
+        koiRequest.setKoiGender(koi1.getKoiGender());
+        koiRequest.setPrice(koi1.getPrice());
+        koiRequest.setKoiDes(koi1.getKoiDes());
+        koiRequest.setKoiPrize(koi1.getKoiPrize());
+        koiRequest.setKoiStatus(koi1.getKoiStatus());
+        koiRequest.setVarietyName(koi1.getVariety().getVarietyName());
+        koiRequest.setBreederName(koi1.getBreeder().getBreederName());
+        koiRequests.add(koiRequest);
+    }
+
+    return koiRequests;
     }
 
 
