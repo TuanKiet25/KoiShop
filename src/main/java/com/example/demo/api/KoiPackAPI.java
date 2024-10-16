@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -66,5 +67,11 @@ public class KoiPackAPI {
     public ResponseEntity searchByVariety(@PathVariable String varietyName){
         List<KoiPack> koiPackList = koiPackService.findKoiPacksByVarietyName(varietyName);
         return ResponseEntity.ok(koiPackList);
+    }
+
+    @DeleteMapping("/delete/{koiPackId}")
+    public ResponseEntity delete(@PathVariable long koiPackId){
+        KoiPack koiPack = koiPackService.deleteById(koiPackId);
+        return ResponseEntity.ok(koiPack);
     }
 }

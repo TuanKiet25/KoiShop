@@ -59,5 +59,5 @@ public class KoiPack {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "koiPack", cascade = CascadeType.ALL)
     private List<Media> mediaList;
 
-
+    private  boolean isDeleted = false;
 }

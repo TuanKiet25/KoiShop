@@ -51,6 +51,8 @@ public class Koi {
     @JsonIgnore
     private Breeder breeder;
 
+
+
     @ManyToOne
     @JoinColumn(name = "variety_id")
     @JsonIgnore
