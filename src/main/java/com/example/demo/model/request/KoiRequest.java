@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Data
 public class KoiRequest {
 
+    
     private String koiName;
 
     private String koiSize;
