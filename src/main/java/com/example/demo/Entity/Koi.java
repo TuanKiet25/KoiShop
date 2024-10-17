@@ -58,9 +58,10 @@ public class Koi {
     @JsonIgnore
     private Variety variety;
 
+    @OneToMany(mappedBy = "koi", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Media> mediaList = new ArrayList<>();
 
-
-   @OneToMany(mappedBy = "koi")
+   @OneToMany(mappedBy = "koi", cascade = CascadeType.ALL)
    private Set<Consignment> consignments = new HashSet<>();
 
     private  boolean isDeleted = false;

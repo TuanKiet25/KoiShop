@@ -1,9 +1,11 @@
 package com.example.demo.model.request;
 
+import com.example.demo.Entity.Media;
 import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class KoiRequest {
@@ -28,4 +30,6 @@ public class KoiRequest {
     private String breederName;
 
     private String varietyName;
+
+    private List<MediaRequest> mediaRequestList;
 }

@@ -22,4 +22,10 @@ public class Media {
     @JsonIgnore
     private KoiPack koiPack;
 
+    @ManyToOne
+    @JoinColumn(name = "koiId")
+    @JsonIgnore
+    private Koi koi;
+
+
 }

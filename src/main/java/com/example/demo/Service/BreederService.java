@@ -35,4 +35,11 @@ public class BreederService {
         breeder.setBreederAdd(breederRequest.getBreederAdd());
         return breederRepository.save(breeder);
     }
+    public Breeder updateBreeder(long breederId, BreederRequest breederRequest){
+        Breeder breeder = breederRepository.findById(breederId);
+        breeder.setBreederPhone(breederRequest.getBreederPhone());
+        breeder.setBreederAdd(breederRequest.getBreederAdd());
+        breeder.setBreederName(breederRequest.getBreederName());
+        return breederRepository.save(breeder);
+    }
 }

@@ -41,7 +41,6 @@ public class KoiPackService {
         for(BreederRequest breederRequest : koiPackRequest.getBreederRequestList()){
             Breeder breeder = new Breeder();
             breeder.setBreederName(breederRequest.getBreederName());
-            breeder.setBreederPhone(breederRequest.getBreederPhone());
             breederList.add(breeder);
         }
         koiPack.setBreeders(breederList);
@@ -49,7 +48,6 @@ public class KoiPackService {
         List<Variety> varieties= new ArrayList<>();
         for(VarietyRequest varietyRequest : koiPackRequest.getVarietyRequestList()){
             Variety variety = new Variety();
-            variety.setVarietyDes(varietyRequest.getVarietyDes());
             variety.setVarietyName(varietyRequest.getVarietyName());
             varieties.add(variety);
         }
@@ -88,7 +86,6 @@ public class KoiPackService {
         for(BreederRequest breederRequest : koiPackRequest.getBreederRequestList()){
             Breeder breeder = new Breeder();
             breeder.setBreederName(breederRequest.getBreederName());
-            breeder.setBreederPhone(breederRequest.getBreederPhone());
             breederList.add(breeder);
         }
         koiPack.setBreeders(breederList);
@@ -96,7 +93,6 @@ public class KoiPackService {
         List<Variety> varieties= new ArrayList<>();
         for(VarietyRequest varietyRequest : koiPackRequest.getVarietyRequestList()){
             Variety variety = new Variety();
-            variety.setVarietyDes(varietyRequest.getVarietyDes());
             variety.setVarietyName(varietyRequest.getVarietyName());
             varieties.add(variety);
         }
