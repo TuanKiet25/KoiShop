@@ -19,9 +19,9 @@ public class OrderAPI {
     OrderService orderService;
 
     @PostMapping("/create")
-    public ResponseEntity createOrder(@RequestBody OrderRequest orderRequest){
-        KoiOrder koiOrder = orderService.createOrder(orderRequest);
-        return ResponseEntity.ok(koiOrder);
+    public ResponseEntity createOrder(@RequestBody OrderRequest orderRequest) throws Exception {
+        String vnPayUrl = orderService.createUrl(orderRequest);
+        return ResponseEntity.ok(vnPayUrl);
     }
     @GetMapping("/get")
     public ResponseEntity getAll(){
