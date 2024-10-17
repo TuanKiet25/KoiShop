@@ -2,11 +2,14 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.Breeder;
 import com.example.demo.Entity.Koi;
+import com.example.demo.Entity.Media;
 import com.example.demo.Entity.Variety;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.request.KoiRequest;
+import com.example.demo.model.request.MediaRequest;
 import com.example.demo.repository.BreederRepository;
 import com.example.demo.repository.KoiRepository;
+import com.example.demo.repository.Mediarepository;
 import com.example.demo.repository.VarietyRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,8 @@ public class KoiService  {
     BreederRepository breederRepository;
     @Autowired
     VarietyRepository varietyRepository;
+    @Autowired
+    Mediarepository mediarepository;
 
     //Create Koi
     public Koi createKoi(KoiRequest koiRequest){
@@ -43,6 +48,13 @@ public class KoiService  {
         newKoi.setKoiStatus(koiRequest.getKoiStatus());
         newKoi.setBreeder(breeder);
         newKoi.setVariety(variety);
+        List<Media> mediaList =  new ArrayList<>();
+        for(MediaRequest mediaRequest: koiRequest.getMediaRequestList()){
+            Media media = new Media();
+            media.setUrl(mediaRequest.getUrl());
+            mediaList.add(media);
+        }
+        newKoi.setMediaList(mediaList);
 
         return koiRepository.save(newKoi);
     }
@@ -58,7 +70,7 @@ public class KoiService  {
         }
     }
     List<KoiRequest> koiRequests = new ArrayList<>();
-    for(Koi koi1 : koiList){
+    for(Koi koi1 : koiList) {
         KoiRequest koiRequest = new KoiRequest();
         koiRequest.setKoiName(koi1.getKoiName());
         koiRequest.setKoiSize(koi1.getKoiSize());
@@ -70,6 +82,14 @@ public class KoiService  {
         koiRequest.setKoiStatus(koi1.getKoiStatus());
         koiRequest.setVarietyName(koi1.getVariety().getVarietyName());
         koiRequest.setBreederName(koi1.getBreeder().getBreederName());
+        koiRequests.add(koiRequest);
+        List<MediaRequest> mediaRequests = new ArrayList<>();
+        for (Media media : koi1.getMediaList()) {
+            MediaRequest mediaRequest = new MediaRequest();
+            mediaRequest.setUrl(media.getUrl());
+            mediaRequests.add(mediaRequest);
+        }
+        koiRequest.setMediaRequestList(mediaRequests);
         koiRequests.add(koiRequest);
     }
 
@@ -96,6 +116,13 @@ public class KoiService  {
         oldkoi.setKoiStatus(koiRequest.getKoiStatus());
         oldkoi.setBreeder(breeder);
         oldkoi.setVariety(variety);
+        List<Media> mediaList =  new ArrayList<>();
+        for(MediaRequest mediaRequest: koiRequest.getMediaRequestList()){
+            Media media = new Media();
+            media.setUrl(mediaRequest.getUrl());
+            mediaList.add(media);
+        }
+        oldkoi.setMediaList(mediaList);
         return koiRepository.save(oldkoi);
     }
 
@@ -109,8 +136,14 @@ public class KoiService  {
     //findByKoiName
     public List<Koi> findByName(String koiName){
         List<Koi> koiList = koiRepository.findByKoiName(koiName);
-        if(koiList.isEmpty()) throw new BadRequestException("Koi not found!");
-        return koiList;
+        List<Koi> kois = new ArrayList<>();
+        for(Koi koi : koiList){
+            if(koi.isDeleted()== false){
+                kois.add(koi);
+            }
+        }
+        if(kois.isEmpty()) throw new BadRequestException("Koi not found!");
+        return kois;
     }
 
     //findKoiByBreeder

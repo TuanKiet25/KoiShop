@@ -34,4 +34,9 @@ public class BreederAPI {
         List<Breeder> breederList = breederService.getAllBreeder();
         return ResponseEntity.ok(breederList);
     }
+    @PutMapping("/update/{breederId}")
+    public ResponseEntity updateBreeder(@PathVariable long breederId, @RequestBody BreederRequest breederRequest){
+        Breeder breeder = breederService.updateBreeder(breederId,breederRequest);
+        return ResponseEntity.ok(breeder);
+    }
 }

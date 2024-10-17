@@ -11,4 +11,6 @@ public interface BreederRepository extends JpaRepository<Breeder, Long> {
     Breeder findByBreederName(String breederName);
 
     List<Breeder> findByBreederNameContaining(String breederName);
+    Breeder findById(long id);
+
 }
