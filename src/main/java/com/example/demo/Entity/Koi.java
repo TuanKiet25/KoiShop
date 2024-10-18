@@ -61,7 +61,7 @@ public class Koi {
     @OneToMany(mappedBy = "koi", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Media> mediaList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "koi")
    private Consignment  consignments;
 
     private  boolean isDeleted = false;
