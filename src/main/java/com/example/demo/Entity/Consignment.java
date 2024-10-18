@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.example.demo.Entity.enums.ConsignmentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,8 @@ public class Consignment {
     private LocalDate consignmentDate;
 
     @Column(name = "consignment_status")
-    private String consignmentStatus;
+    @Enumerated(EnumType.STRING)
+    ConsignmentStatus consignmentStatus;
 
     @Column(name = "consignment_price")
     private float consignmentPrice;
@@ -39,8 +41,8 @@ public class Consignment {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @ManyToOne
-    @JoinColumn(name = "koi_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "koi_id", referencedColumnName = "id")
     private Koi koi;
 
     @ManyToMany(cascade = CascadeType.ALL)
