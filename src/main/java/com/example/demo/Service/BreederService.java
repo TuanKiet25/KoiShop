@@ -1,7 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Entity.Breeder;
-import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.*;
 import com.example.demo.model.request.BreederRequest;
 import com.example.demo.repository.BreederRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.example.demo.model.request;
 
-import com.example.demo.Entity.Media;
-import jakarta.persistence.Column;
+
 import lombok.Data;
 
 import java.time.LocalDate;
