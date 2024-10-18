@@ -21,7 +21,7 @@ public class Consignment {
     private long id;
 
     @Column(name = "consignment_date")
-    private LocalDate consignmentDate;
+    private LocalDate consignmentCreateDate;
 
     @Column(name = "consignment_status")
     @Enumerated(EnumType.STRING)
@@ -36,6 +36,7 @@ public class Consignment {
     @Column(name = "consignment_Fee")
     private float consignmentFee;
 
+    private LocalDate consignmentSignDate;
 
     @ManyToOne
     @JoinColumn(name = "account_id")

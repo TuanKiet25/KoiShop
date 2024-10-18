@@ -32,8 +32,6 @@ public class Breeder {
     @OneToMany(mappedBy = "breeder")
     private Set<Koi> kois = new HashSet<>();
 
-
-
     @ManyToMany(mappedBy = "breeders")
     @JsonIgnore
     private List<KoiPack> koiPacks = new ArrayList<>();
