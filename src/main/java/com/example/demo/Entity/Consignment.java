@@ -1,6 +1,10 @@
 package com.example.demo.Entity;
 
 import com.example.demo.Entity.enums.ConsignmentStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +25,7 @@ public class Consignment {
     private long id;
 
     @Column(name = "consignment_date")
-    private LocalDate consignmentDate;
+    private LocalDate consignmentCreateDate;
 
     @Column(name = "consignment_status")
     @Enumerated(EnumType.STRING)
@@ -36,16 +40,25 @@ public class Consignment {
     @Column(name = "consignment_Fee")
     private float consignmentFee;
 
+    private LocalDate consignmentSignDate;
+
+    @JsonIgnore
+    private boolean isDeleted=false;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
+    @JsonIgnoreProperties({"id","password","role","koiOrders","username","authorities","enabled","accountNonLocked","accountNonExpired","credentialsNonExpired"})
     private Account account;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "koi_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Koi koi;
 
+//    private long koi_id;
+
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonBackReference
     @JoinTable(name = "consignment_payment",
             joinColumns = @JoinColumn(name = "consignmentId"),
             inverseJoinColumns = @JoinColumn(name = "paymentMethodId"))

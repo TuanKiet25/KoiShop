@@ -4,7 +4,7 @@ import com.example.demo.Entity.Breeder;
 import com.example.demo.Entity.Koi;
 import com.example.demo.Entity.Media;
 import com.example.demo.Entity.Variety;
-import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.*;
 import com.example.demo.model.request.KoiRequest;
 import com.example.demo.model.request.MediaRequest;
 import com.example.demo.repository.BreederRepository;
@@ -33,10 +33,15 @@ public class KoiService  {
     public Koi createKoi(KoiRequest koiRequest){
         Koi newKoi = new Koi();
         Breeder breeder = breederRepository.findByBreederName(koiRequest.getBreederName());
-        if (breeder == null) throw new BadRequestException("Breeder does not exist!");
+        if (breeder == null)
+        {
+            breeder = breederRepository.save(new Breeder());
+        }
+//            throw new BadRequestException("Breeder does not exist!");
 
         Variety variety = varietyRepository.findByVarietyName(koiRequest.getVarietyName());
-        if (variety == null) throw new BadRequestException("Variety does not exist!");
+        if (variety == null) variety = varietyRepository.save(new Variety());
+//            throw new BadRequestException("Variety does not exist!");
 
         newKoi.setKoiName(koiRequest.getKoiName());
         newKoi.setKoiSize(koiRequest.getKoiSize());

@@ -11,7 +11,7 @@ public class RegisterRequest {
     @Size(min = 6, message = "Password must be at least 6 character!!!")
     String password;
     String fullName;
-    @Pattern(regexp = "(84|0[3|5|7|8|9])+(\\d{8})", message = "Invalid phone number!!!")
+//    @Pattern(regexp = "(84|0[3|5|7|8|9])+(\\d{8})", message = "Invalid phone number!!!")
     @Column(unique = true)
     String phone;
 }

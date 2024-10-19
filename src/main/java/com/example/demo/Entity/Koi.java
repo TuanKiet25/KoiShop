@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,7 +26,7 @@ public class Koi {
     @Column(name = "koi_name")
     private String koiName;
 
-    @Column(name =  "koi_size")
+    @Column(name = "koi_size")
     private String koiSize;
 
     @Column(name = "koi_born")
@@ -46,11 +47,13 @@ public class Koi {
     @Column(name = "koi_status")
     private String koiStatus;
 
+    @JsonIgnore
+    private boolean isDeleted = false;
+
     @ManyToOne
     @JoinColumn(name = "breeder_id")
     @JsonIgnore
     private Breeder breeder;
-
 
 
     @ManyToOne
@@ -62,8 +65,7 @@ public class Koi {
     private List<Media> mediaList = new ArrayList<>();
 
     @OneToOne(mappedBy = "koi")
-   private Consignment  consignments;
-
-    private  boolean isDeleted = false;
+    @JsonBackReference
+    private Consignment consignments;
 
 }
