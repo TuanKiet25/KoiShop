@@ -9,15 +9,16 @@ import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.ConsignmentRepository;
 import com.example.demo.repository.KoiRepository;
 import jakarta.validation.constraints.Null;
-import org.apache.coyote.BadRequestException;
+import javassist.NotFoundException;
+import com.example.demo.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
-public class ConsignmentService
-{
+public class ConsignmentService {
     @Autowired
     private ConsignmentRepository consignmentRepository;
 
@@ -41,21 +42,41 @@ public class ConsignmentService
     public Consignment createConsignment(KoiRequest koiRequest) throws BadRequestException {
         Consignment consignment = new Consignment();
         Account account = accountService.getCurrentAccount();
-        if(account.getRole().equals(Role.CUSTOMER))
-        {
-            consignment.setConsignmentCreateDate(LocalDate.now());
-            consignment.setConsignmentStatus(ConsignmentStatus.REQUESTED);
-            consignment.setConsignmentPrice(0);
-            consignment.setConsignmentDes(null);
-            consignment.setConsignmentFee(0);
-            consignment.setConsignmentSignDate(null);
-            consignment.setAccount(accountRepository.findAccountById(account.getId()));
-            consignment.setKoi(koiService.createKoi(koiRequest));
-            consignment.setPaymentMethods(null);
+        if (!account.getRole().equals(Role.CUSTOMER)) {
+            throw new BadRequestException("Only customer can make consignment request");
         }
-        else{
-            throw new BadRequestException("Invalid role");
-        }
+
+        consignment.setConsignmentCreateDate(LocalDate.now());
+        consignment.setConsignmentStatus(ConsignmentStatus.REQUESTED);
+        consignment.setConsignmentPrice(0);
+        consignment.setConsignmentDes(null);
+        consignment.setConsignmentFee(0);
+        consignment.setConsignmentSignDate(null);
+        consignment.setAccount(accountRepository.findAccountById(account.getId()));
+        consignment.setKoi(koiService.createKoi(koiRequest));
+        consignment.setPaymentMethods(null);
+
         return consignmentRepository.save(consignment);
     }
+
+    public Consignment changeConsignmentToWaiting(Long consignmentId) //throws NotFoundException
+    {
+//        Account account = accountService.getCurrentAccount();
+        Consignment consignment = consignmentRepository.findById(consignmentId).get();
+//        if (consignment == null) {
+//            throw new NotFoundException("Consignment not found");
+//        }
+//        if (!account.getRole().equals(Role.MANAGER)) {
+//            throw new BadRequestException("Only customer can make consignment request");
+//        }
+        consignment.setConsignmentStatus(ConsignmentStatus.WAITING);
+        return consignmentRepository.save(consignment);
+    }
+
+    public List<Consignment> getAllConsignments()
+    {
+        List<Consignment> consignments = consignmentRepository.findAll();
+        return consignments;
+    }
+
 }
