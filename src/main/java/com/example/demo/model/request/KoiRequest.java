@@ -9,7 +9,8 @@ import java.util.List;
 @Data
 public class KoiRequest {
 
-    
+    private  long id;
+
     private String koiName;
 
     private String koiSize;
