@@ -42,29 +42,29 @@ public ResponseEntity updateKoi(@PathVariable long koiId, @RequestBody KoiReques
     return ResponseEntity.ok(deletedKoi);
 }
 
-@GetMapping("/{koiName}")
+@GetMapping("search/name/{koiName}")
     public ResponseEntity findKoiByName(@PathVariable String koiName){
-    List<Koi> koiResultList = koiService.findByName(koiName);
+    List<KoiRequest> koiResultList = koiService.findByName(koiName);
     return ResponseEntity.ok(koiResultList);
 }
-@GetMapping("/breeder/{breederName}")
+@GetMapping("search/breeder/{breederName}")
     public ResponseEntity findKoiByBreeder(@PathVariable String breederName) {
-    List<Koi> searchKoiList = koiService.findByBreeder(breederName);
+    List<KoiRequest> searchKoiList = koiService.findByBreeder(breederName);
     return ResponseEntity.ok(searchKoiList);
 }
 @GetMapping("/sortedAsc")
     public ResponseEntity sortedKoiByPriceAsc(){
-    List<Koi> sortedList = koiService.sortedByPriceAsc();
+    List<KoiRequest> sortedList = koiService.sortedByPriceAsc();
     return ResponseEntity.ok(sortedList);
 }
 @GetMapping("/sortedDesc")
     public ResponseEntity sortedKoiByPriceDesc(){
-    List<Koi> sortedList = koiService.sortedByPriceDesc();
+    List<KoiRequest> sortedList = koiService.sortedByPriceDesc();
     return ResponseEntity.ok(sortedList);
     }
-@GetMapping("/variety/{varietyName}")
+@GetMapping("/search/variety/{varietyName}")
     public  ResponseEntity findKoiByVariety(@PathVariable String varietyName){
-    List<Koi> searchKoiList = koiService.findByVariety(varietyName);
+    List<KoiRequest> searchKoiList = koiService.findByVariety(varietyName);
     return ResponseEntity.ok(searchKoiList);
 }
 

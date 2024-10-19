@@ -4,7 +4,7 @@ import com.example.demo.Entity.Breeder;
 import com.example.demo.Entity.Koi;
 import com.example.demo.Entity.Media;
 import com.example.demo.Entity.Variety;
-import com.example.demo.exception.*;
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.request.KoiRequest;
 import com.example.demo.model.request.MediaRequest;
 import com.example.demo.repository.BreederRepository;
@@ -33,15 +33,14 @@ public class KoiService  {
     public Koi createKoi(KoiRequest koiRequest){
         Koi newKoi = new Koi();
         Breeder breeder = breederRepository.findByBreederName(koiRequest.getBreederName());
-        if (breeder == null)
-        {
+        if (breeder == null){
             breeder = breederRepository.save(new Breeder());
         }
-//            throw new BadRequestException("Breeder does not exist!");
 
         Variety variety = varietyRepository.findByVarietyName(koiRequest.getVarietyName());
-        if (variety == null) variety = varietyRepository.save(new Variety());
-//            throw new BadRequestException("Variety does not exist!");
+        if (variety == null){
+            variety = varietyRepository.save(new Variety());
+        }
 
         newKoi.setKoiName(koiRequest.getKoiName());
         newKoi.setKoiSize(koiRequest.getKoiSize());
@@ -67,49 +66,24 @@ public class KoiService  {
 
     //read koi
     public List<KoiRequest> getAllKoi(){
-    List<Koi> kois= koiRepository.findAll();
-    List<Koi> koiList = new ArrayList<>();
-    for(Koi koi  : kois) {
-        if (koi.isDeleted() == false) {
-            koiList.add(koi);
-        }
-    }
-    List<KoiRequest> koiRequests = new ArrayList<>();
-    for(Koi koi1 : koiList) {
-        KoiRequest koiRequest = new KoiRequest();
-        koiRequest.setKoiName(koi1.getKoiName());
-        koiRequest.setKoiSize(koi1.getKoiSize());
-        koiRequest.setKoiBorn(koi1.getKoiBorn());
-        koiRequest.setKoiGender(koi1.getKoiGender());
-        koiRequest.setPrice(koi1.getPrice());
-        koiRequest.setKoiDes(koi1.getKoiDes());
-        koiRequest.setKoiPrize(koi1.getKoiPrize());
-        koiRequest.setKoiStatus(koi1.getKoiStatus());
-        koiRequest.setVarietyName(koi1.getVariety().getVarietyName());
-        koiRequest.setBreederName(koi1.getBreeder().getBreederName());
-        koiRequests.add(koiRequest);
-        List<MediaRequest> mediaRequests = new ArrayList<>();
-        for (Media media : koi1.getMediaList()) {
-            MediaRequest mediaRequest = new MediaRequest();
-            mediaRequest.setUrl(media.getUrl());
-            mediaRequests.add(mediaRequest);
-        }
-        koiRequest.setMediaRequestList(mediaRequests);
-        koiRequests.add(koiRequest);
-    }
-
-    return koiRequests;
+        List<Koi> kois= koiRepository.findAll();
+        List<Koi> koiList = checkDelete(kois);
+        List<KoiRequest> koiRequests = setup(koiList);
+        return koiRequests;
     }
 
 
     //update  koi
     public Koi update(long koiId, KoiRequest koiRequest){
         Breeder breeder = breederRepository.findByBreederName(koiRequest.getBreederName());
-        if (breeder == null) throw new BadRequestException("Breeder does not exist!");
+        if (breeder == null){
+            breeder = breederRepository.save(new Breeder());
+        }
 
         Variety variety = varietyRepository.findByVarietyName(koiRequest.getVarietyName());
-        if (variety == null) throw new BadRequestException("Variety does not exist!");
-
+        if (variety == null){
+            variety = varietyRepository.save(new Variety());
+        }
         Koi oldkoi = getKoiById(koiId);
         oldkoi.setKoiName(koiRequest.getKoiName());
         oldkoi.setKoiSize(koiRequest.getKoiSize());
@@ -133,48 +107,55 @@ public class KoiService  {
 
     //delete
     public Koi deleteKoi(long id){
-    Koi koi = getKoiById(id);
+        Koi koi = getKoiById(id);
         koi.setDeleted(true);
         return koiRepository.save(koi);
     }
 
     //findByKoiName
-    public List<Koi> findByName(String koiName){
+    public List<KoiRequest> findByName(String koiName){
         List<Koi> koiList = koiRepository.findByKoiName(koiName);
-        List<Koi> kois = new ArrayList<>();
-        for(Koi koi : koiList){
-            if(koi.isDeleted()== false){
-                kois.add(koi);
-            }
-        }
+        List<Koi> kois = checkDelete(koiList);
         if(kois.isEmpty()) throw new BadRequestException("Koi not found!");
-        return kois;
+        List<KoiRequest> koiRequestList = setup(kois);
+
+        return koiRequestList;
     }
 
     //findKoiByBreeder
-    public List<Koi> findByBreeder(String breederName){
-    Breeder breeder = breederRepository.findByBreederName(breederName);
-    if(breeder == null) throw new BadRequestException("Breeder does not exist!");
-    List<Koi> koiBreederList =koiRepository.findByBreeder(breeder);
-    return koiBreederList;
+    public List<KoiRequest> findByBreeder(String breederName){
+        Breeder breeder = breederRepository.findByBreederName(breederName);
+        if(breeder == null) throw new BadRequestException("Breeder does not exist!");
+        List<Koi> koiBreederList =koiRepository.findByBreeder(breeder);
+        List<Koi> koiList = checkDelete(koiBreederList);
+        List<KoiRequest> koiRequests = setup(koiList);
+        return koiRequests;
     }
 
     //Sorted by price Asc
-    public List<Koi> sortedByPriceAsc(){
-        return koiRepository.findAllByOrderByPriceAsc();
+    public List<KoiRequest> sortedByPriceAsc(){
+        List<Koi> koiList = koiRepository.findAllByOrderByPriceAsc();
+        List<Koi> kois = checkDelete(koiList);
+        List<KoiRequest> koiRequests = setup(kois);
+        return koiRequests;
     }
 
     //Sorted by price Desc
-    public List<Koi> sortedByPriceDesc(){
-        return koiRepository.findAllByOrderByPriceDesc();
+    public List<KoiRequest> sortedByPriceDesc(){
+        List<Koi> koiList = koiRepository.findAllByOrderByPriceDesc();
+        List<Koi> kois = checkDelete(koiList);
+        List<KoiRequest> koiRequests = setup(kois);
+        return koiRequests;
     }
 
     //Find by Variety
-    public List<Koi> findByVariety(String varietyName){
-       Variety variety = varietyRepository.findByVarietyName(varietyName);
-       if(variety == null) throw new BadRequestException("Variety does not exist!");
-       List<Koi> koiListVariety = koiRepository.findByVariety(variety);
-        return koiListVariety;
+    public List<KoiRequest> findByVariety(String varietyName) {
+        Variety variety = varietyRepository.findByVarietyName(varietyName);
+        if (variety == null) throw new BadRequestException("Variety does not exist!");
+        List<Koi> koiListVariety = koiRepository.findByVariety(variety);
+        List<Koi> koiList = checkDelete(koiListVariety);
+        List<KoiRequest> koiRequests = setup(koiList);
+        return koiRequests;
     }
 
     //Find by id
@@ -183,5 +164,41 @@ public class KoiService  {
         if(koi == null) throw new EntityNotFoundException();
         return koi;
     }
-
+    //checkDelete
+    public List<Koi> checkDelete(List<Koi> koiList){
+        List<Koi> kois = new ArrayList<>();
+        for(Koi koi  : koiList) {
+            if (koi.isDeleted() == false) {
+                kois.add(koi);
+            }
+        }
+        return kois;
+    }
+    //set up koi request
+    public List<KoiRequest> setup(List<Koi> kois){
+        List<KoiRequest> koiRequestList = new ArrayList<>();
+        for (Koi koi : kois) {
+            KoiRequest koiRequest = new KoiRequest();
+            koiRequest.setId(koi.getId());
+            koiRequest.setKoiName(koi.getKoiName());
+            koiRequest.setKoiSize(koi.getKoiSize());
+            koiRequest.setKoiBorn(koi.getKoiBorn());
+            koiRequest.setKoiGender(koi.getKoiGender());
+            koiRequest.setPrice(koi.getPrice());
+            koiRequest.setKoiDes(koi.getKoiDes());
+            koiRequest.setKoiPrize(koi.getKoiPrize());
+            koiRequest.setKoiStatus(koi.getKoiStatus());
+            koiRequest.setVarietyName(koi.getVariety().getVarietyName());
+            koiRequest.setBreederName(koi.getBreeder().getBreederName());
+            List<MediaRequest> mediaRequests = new ArrayList<>();
+            for (Media media : koi.getMediaList()) {
+                MediaRequest mediaRequest = new MediaRequest();
+                mediaRequest.setUrl(media.getUrl());
+                mediaRequests.add(mediaRequest);
+            }
+            koiRequest.setMediaRequestList(mediaRequests);
+            koiRequestList.add(koiRequest);
+        }
+        return koiRequestList;
+    }
 }
