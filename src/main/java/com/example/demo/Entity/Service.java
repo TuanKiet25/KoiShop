@@ -1,9 +1,6 @@
 package com.example.demo.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
@@ -12,10 +9,11 @@ import lombok.Setter;
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
-    String name;
-    String description;
+    private String name;
 
-    boolean isDeleted=false;
+    private String description = null;
+
+    private boolean isDeleted=false;
 }

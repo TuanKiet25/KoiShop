@@ -1,6 +1,7 @@
 package com.example.demo.Entity;
 
 import com.example.demo.Entity.enums.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -33,6 +34,7 @@ public class Account implements UserDetails {
     Role role;
 
     @OneToMany(mappedBy = "account")
+    @JsonBackReference
     private Set<Consignment> consignments = new HashSet<>();
 
     @OneToMany(mappedBy = "account")

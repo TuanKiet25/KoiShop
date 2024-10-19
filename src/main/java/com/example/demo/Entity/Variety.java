@@ -25,6 +25,8 @@ public class Variety {
     @Column(name = "variety_Description")
     private String varietyDes;
 
+    private boolean isDeleted=false;
+
     @OneToMany(mappedBy = "variety")
     private Set<Koi> kois = new HashSet<>();
 

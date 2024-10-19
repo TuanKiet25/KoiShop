@@ -29,6 +29,8 @@ public class Breeder {
     @Column(name = "breeder_address")
     private String breederAdd;
 
+    private boolean isDeleted=false;
+
     @OneToMany(mappedBy = "breeder")
     private Set<Koi> kois = new HashSet<>();
 
