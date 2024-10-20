@@ -4,12 +4,10 @@ import com.example.demo.Entity.Account;
 import com.example.demo.Entity.Consignment;
 import com.example.demo.Entity.enums.ConsignmentStatus;
 import com.example.demo.Entity.enums.Role;
+import com.example.demo.model.request.ConsignmentRequest;
 import com.example.demo.model.request.KoiRequest;
 import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.ConsignmentRepository;
-import com.example.demo.repository.KoiRepository;
-import jakarta.validation.constraints.Null;
-import javassist.NotFoundException;
 import com.example.demo.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,9 +46,9 @@ public class ConsignmentService {
 
         consignment.setConsignmentCreateDate(LocalDate.now());
         consignment.setConsignmentStatus(ConsignmentStatus.REQUESTED);
-        consignment.setConsignmentPrice(0);
+        consignment.setConsignmentSuggestionPrice(0);
         consignment.setConsignmentDes(null);
-        consignment.setConsignmentFee(0);
+        consignment.setConsignmentConfirmedPrice(0);
         consignment.setConsignmentSignDate(null);
         consignment.setAccount(accountRepository.findAccountById(account.getId()));
         consignment.setKoi(koiService.createKoi(koiRequest));
@@ -59,7 +57,7 @@ public class ConsignmentService {
         return consignmentRepository.save(consignment);
     }
 
-    public Consignment changeConsignmentToWaiting(Long consignmentId) //throws NotFoundException
+    public Consignment waitingConsignment(Long consignmentId) //throws NotFoundException
     {
 //        Account account = accountService.getCurrentAccount();
         Consignment consignment = consignmentRepository.findById(consignmentId).get();
@@ -77,6 +75,49 @@ public class ConsignmentService {
     {
         List<Consignment> consignments = consignmentRepository.findAll();
         return consignments;
+    }
+
+    public Consignment checkConsignment(Long consignmentId,ConsignmentRequest consignmentRequest)
+    {
+        Consignment consignment = consignmentRepository.findById(consignmentId).get();
+        consignment.setConsignmentStatus(ConsignmentStatus.REQUESTED);
+        consignment.setConsignmentDes(consignmentRequest.getConsignmentDescription());
+        return consignmentRepository.save(consignment);
+    }
+
+    public Consignment selectConsignmentById(Long consignmentId)
+    {
+        return consignmentRepository.findById(consignmentId).get();
+    }
+
+    public Consignment cancelConsign (Long consignmentId)
+    {
+        Consignment consignment = consignmentRepository.findById(consignmentId).get();
+        consignment.setConsignmentStatus(ConsignmentStatus.CANCELED);
+        return consignmentRepository.save(consignment);
+    }
+
+    public Consignment approveConsignment (Long consignmentId, ConsignmentRequest consignmentRequest)
+    {
+        Consignment consignment = consignmentRepository.findById(consignmentId).get();
+        consignment.setConsignmentStatus(ConsignmentStatus.APPROVED);
+        consignment.setConsignmentSuggestionPrice(consignmentRequest.getConsignmentSuggestionPrice());
+        return consignmentRepository.save(consignment);
+    }
+
+    public Consignment consignedConsignment(Long consignmentId, ConsignmentRequest consignmentRequest)
+    {
+        Consignment consignment = consignmentRepository.findById(consignmentId).get();
+        consignment.setConsignmentStatus(ConsignmentStatus.CONSIGNED);
+        consignment.setConsignmentConfirmedPrice(consignmentRequest.getConsignmentConfirmedPrice());
+        return consignmentRepository.save(consignment);
+    }
+
+    public Consignment paidConsignment(Long consignmentId)
+    {
+        Consignment consignment = consignmentRepository.findById(consignmentId).get();
+        consignment.setConsignmentStatus(ConsignmentStatus.PAID);
+        return consignmentRepository.save(consignment);
     }
 
 }
