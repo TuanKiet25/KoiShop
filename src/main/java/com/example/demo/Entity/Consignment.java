@@ -11,9 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "consignment")
@@ -32,13 +30,13 @@ public class Consignment {
     ConsignmentStatus consignmentStatus;
 
     @Column(name = "consignment_price")
-    private float consignmentPrice;
+    private float consignmentSuggestionPrice;
 
     @Column(name = "consignment_description")
     private String consignmentDes;
 
     @Column(name = "consignment_Fee")
-    private float consignmentFee;
+    private float consignmentConfirmedPrice;
 
     private LocalDate consignmentSignDate;
 
@@ -55,10 +53,9 @@ public class Consignment {
     @JsonManagedReference
     private Koi koi;
 
-//    private long koi_id;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonBackReference
+//    @JsonManagedReference
     @JoinTable(name = "consignment_payment",
             joinColumns = @JoinColumn(name = "consignmentId"),
             inverseJoinColumns = @JoinColumn(name = "paymentMethodId"))
